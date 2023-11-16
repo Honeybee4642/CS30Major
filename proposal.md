@@ -1,6 +1,10 @@
 # Project Description
-My project is...
+My project is kind of a simulation of a blackhole pulling objects toward it.
 # Must Have
-Must have...
+- Blackhole object
+- Pull in objects
+- Objects for blackhole to pull in
 # Nice to have
-Nice to have...
+- Something like spagetification
+- Object being pulled spirals around the blackhole before being completely pulled in
+- Able to create multiple blackholes that interact with each other
