@@ -6,17 +6,19 @@
 // - describe what you did to take this project "above and beyond"
 let theStar =[];
 class Blackhole{
-  constructor(x, y){
+  constructor(x, y, strokeMulti, reachMulti){
     this.x = x;
     this.y = y;
     this.color = color(0);
     this.outColor = color(7, 130, 245);
     this.size = 35;
-    this.strokeSize = this.size * 25;
+    this.strokeMulti = strokeMulti;
+    this.reachMulti = reachMulti;
+    this.strokeSize = this.size * strokeMulti;
     this.xTime = random(1000);
     this.yTime = random(1000);
     this.deltaTime = 0.01;
-    this.reach = this.strokeSize * 2.75;
+    this.reach = this.strokeSize * reachMulti;
   }
   display(){
     fill(this.color);
@@ -50,22 +52,22 @@ class Blackhole{
   pullIn(object){
     for (let otherObject of object) {
       if (this !== otherObject) {
-        if (dist(, otherObject.x, otherObject.y) <this.reach) {
-          Star
+        if (dist(object.x, object.y, otherObject.x, otherObject.y) < this.reach) {
+          
         }
       }
     }
   }
 }
 class Star{
-  constructor(x, y){
+  constructor(x, y, xTime, yTime){
     this.x = x;
     this.y = y;
     this.color = color(random(255), random(255), random(255));
     this.size = random(25);
     this.theCircle = circle(this.x, this.y, this.size);
-    this.xTime = random(1000);
-    this.yTime = random(1000);
+    this.xTime = xTime;
+    this.yTime = yTime;
     this.deltaTime = 0.01;
   }
   display(){
@@ -73,17 +75,15 @@ class Star{
     noStroke();
     this.theCircle = true;
   }
-  update(){
+  updateNormal(){
     let dx = noise(this.xTime);
     let dy = noise(this.yTime);
-    if(!Blackhole){
-      this.dx = map(dx, 0, 1, -3, 3);
-      this.dy = map(dy, 0, 1, -3, 3);
-      this.x += this.dx;
-      this.y += this.dy;
-      this.xTime += this.deltaTime;
-      this.yTime += this.deltaTime;
-    }
+    this.dx = map(dx, 0, 1, -3, 3);
+    this.dy = map(dy, 0, 1, -3, 3);
+    this.x += this.dx;
+    this.y += this.dy;
+    this.xTime += this.deltaTime;
+    this.yTime += this.deltaTime;
     if (this.x < 0) {
       this.x += width;
     }
@@ -97,6 +97,21 @@ class Star{
       this.y -= height;
     }
   }
+  updatePull(){
+    let num1 = 50;
+    let num2 = 100;
+    let  = this.xTime;
+    let dy = this.yTime;
+    let angle = 0;
+    let orbitCenterX = Blackhole(this.x, this.y);
+    let orbitCenterY = Blackhole(this.x, this.y);
+    let orbitArea = Blackhole(this.x, this.y ,this.strokeMulti, this.reachMulti);
+    let x = orbitCenterX + orbitArea * cos(angle);
+    let y = orbitCenterY + orbitArea * sin(angle);
+    ellipse(orbitCenterX, orbitCenterY, num1, num1);
+    ellipse(x, y, num2, num2);
+    angle += 
+  }
 }
 
 function setup() {
@@ -105,10 +120,16 @@ function setup() {
 
 function draw() {
   background(220);
-  Blackhole(width/2, height/2);
+  new Blackhole(width/2, height/2);
 }
 
 function mousePressed() {
   let theDist = new Star(mouseX, mouseY);
   theStar.push(theDist);
 }
+// function pullObjIn(){
+//   let obj = Star();
+//   for(let otherObj of obj){
+//     if
+//   }
+// }
