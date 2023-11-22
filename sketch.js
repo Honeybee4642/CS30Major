@@ -5,6 +5,8 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 let theStar =[];
+let blackhole;
+let star;
 class Blackhole{
   constructor(x, y, strokeMulti, reachMulti){
     this.x = x;
@@ -49,31 +51,24 @@ class Blackhole{
       this.y -= height;
     }
   }
-  pullIn(object){
-    for (let otherObject of object) {
-      if (this !== otherObject) {
-        if (dist(object.x, object.y, otherObject.x, otherObject.y) < this.reach) {
-          
-        }
-      }
-    }
-  }
+  
 }
 class Star{
-  constructor(x, y, xTime, yTime){
+  constructor(x, y, deltaTime){
     this.x = x;
     this.y = y;
     this.color = color(random(255), random(255), random(255));
     this.size = random(25);
     this.theCircle = circle(this.x, this.y, this.size);
-    this.xTime = xTime;
-    this.yTime = yTime;
-    this.deltaTime = 0.01;
+    this.xTime = random(1000);
+    this.yTime = random(1000);
+    this.deltaTime = deltaTime;
+    this.speed = random(2.5, 5);
   }
   display(){
     fill(this.color);
     noStroke();
-    this.theCircle = true;
+    this.theCircle;
   }
   updateNormal(){
     let dx = noise(this.xTime);
@@ -99,28 +94,40 @@ class Star{
   }
   updatePull(){
     let num1 = 50;
-    let num2 = 100;
-    let  = this.xTime;
-    let dy = this.yTime;
+    let speed = 0.1;
     let angle = 0;
-    let orbitCenterX = Blackhole(this.x, this.y);
-    let orbitCenterY = Blackhole(this.x, this.y);
-    let orbitArea = Blackhole(this.x, this.y ,this.strokeMulti, this.reachMulti);
-    let x = orbitCenterX + orbitArea * cos(angle);
-    let y = orbitCenterY + orbitArea * sin(angle);
-    ellipse(orbitCenterX, orbitCenterY, num1, num1);
-    ellipse(x, y, num2, num2);
-    angle += 
+    let scalar = 10;
+    let orbitCenterX = blackhole.x;
+    let orbitCenterY = blackhole.y;
+    let x = cos(angle) * scalar + orbitCenterX;
+    let y = sin(angle) * scalar + orbitCenterY;
+    ellipse(x, y, num1, num1);
+  
+    angle += speed;
+  }
+  pullIn(object){
+    for (let otherObject of object) {
+      if (this !== otherObject) {
+        if (dist(object.x, object.y, otherObject.x, otherObject.y) < blackhole.reachMulti) {
+          this.updatePull();
+        }
+      }
+    }
   }
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  blackhole = new Blackhole(width/2, height/2, 1.5, 2);
+  star = new Star(this.x, this.y, 0.01);
 }
 
 function draw() {
   background(220);
   new Blackhole(width/2, height/2);
+  for(let stars of theStar){
+    if 
+  } 
 }
 
 function mousePressed() {
