@@ -8,7 +8,7 @@ let blackhole;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  blackhole = new Sprite()
+  blackhole = new Sprite();
 }
 
 function draw() {
