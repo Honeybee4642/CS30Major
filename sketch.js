@@ -17,5 +17,7 @@ function draw() {
   background(220);
 }
 function attract(){
-  if star
+  if (mouse.pressing){
+    star =
+  }
 }
