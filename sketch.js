@@ -17,7 +17,8 @@ function draw() {
   background(220);
 }
 function attract(){
-  if (mouse.pressing){
-    star =
-  }
+  if(mouse.
+}
+function newStar(){
+  star = new Sprite(mouseX, mouseY, random(3, 35));
 }
