@@ -482,6 +482,7 @@
     }
   },
   "dependencies": {
-    "p5play.min.js": "^3.17.9"
+    "@types/p5": "^1.7.4",
+    "p5play": "^3.17.9"
   }
 }

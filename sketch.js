@@ -11,16 +11,9 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   blackhole = new Sprite(width/2, height/2, 50);
   blackhole.color = (0,0,0);
+  star = new Sprite(mouseX, mouseY, random(3, 35));
 }
 
 function draw() {
   background(220);
-}
-function attract(){
-  if(mouse.pressing()){
-    newStar(mouseX, mouseY);
-  }
-}
-function newStar(x, y){
-  star = new Sprite(x, y, random(3, 35));
 }
