@@ -48,11 +48,11 @@ class Blackhole{
   attract(theObj){
     if(this !== theObj){
       if(dist(theObj.x, theObj.y , this.x, this.y) <= this.pullDist){
-        theObj.x = this.r * sin(this.angle) * this.scalar; 
-        theObj.y = this.r * cos(this.angle) * this.scalar;
-        
+        let x = this.r * sin(this.angle) * this.scalar; 
+        let y = this.r * cos(this.angle) * this.scalar;
+        theObj;
         this.angle += this.speed;
-        this.r -= this.speed;
+        this.r -= this.angle;
       }
     }
   }
@@ -64,7 +64,7 @@ class Star extends Blackhole{
     this.x = x;
     this.y = y;
     this.size = random(3, 40);
-    this.color = color(random(255), 0, random(255));
+    this.color = color(random(50,255), 0, random(50,255));
     this.dx = random(-7, 7);
     this.dy = random(-7, 7);
   }
@@ -74,9 +74,9 @@ class Star extends Blackhole{
     circle(this.x, this.y, this.size);
   }
   update(attractor){
-    if(dist(this.x, this.y, attractor.x, attractor.y) >= this.pullDist){
+    if(dist(this.x, this.y, attractor.x, attractor.y) > this.pullDist){
       this.x += this.dx;
       this.y += this.dy;
-    } 
+    }
   }
 }
