@@ -19,17 +19,17 @@ function draw() {
     stars.display();
     stars.update(blackhole);
     attract(stars,blackhole);
-    if(stars.x + stars.size >= blackhole.size){
-      star.splice(stars);
+    if(stars.x - stars.size <= blackhole.size){
+      star.splice(stars,1);
     }
-    else if(stars.x <=blackhole.size + stars.size <= blackhole.size){
-      star.splice(stars);
+    else if(stars.x <=blackhole.size - stars.size >= blackhole.size){
+      star.splice(stars,1);
     }
-    else if(stars.y + stars.size >= blackhole.size){
-      star.splice(stars);
+    else if(stars.y - stars.size <= blackhole.size){
+      star.splice(stars,1);
     }
-    else if(stars.y <=blackhole.size + stars.size <= blackhole.size){
-      star.splice(stars);
+    else if(stars.y <=blackhole.size - stars.size >= blackhole.size){
+      star.splice(stars,1);
     }
     // blackhole.attract(stars);
   }
@@ -46,7 +46,7 @@ function attract(theObject, theAttract){
       theObject.x = theAttract.r + sin(theAttract.angle) * theAttract.scalar + theAttract.x; 
       theObject.y = theAttract.r + cos(theAttract.angle) * theAttract.scalar + theAttract.y;
       theAttract.angle -= theAttract.speed;
-      theAttract.scalar -= theAttract.r;
+      theAttract.scalar += theAttract.r;
       point(theObject.x, theObject.y);
     }
   }
