@@ -19,8 +19,17 @@ function draw() {
     stars.display();
     stars.update(blackhole);
     attract(stars,blackhole);
-    if(stars.x === blackhole.x){
-      star.splice();
+    if(stars.x + stars.size >= blackhole.size){
+      star.splice(stars);
+    }
+    else if(stars.x <=blackhole.size + stars.size <= blackhole.size){
+      star.splice(stars);
+    }
+    else if(stars.y + stars.size >= blackhole.size){
+      star.splice(stars);
+    }
+    else if(stars.y <=blackhole.size + stars.size <= blackhole.size){
+      star.splice(stars);
     }
     // blackhole.attract(stars);
   }
@@ -31,12 +40,12 @@ function mousePressed(){
 }
 function attract(theObject, theAttract){
   if(theAttract !== theObject){
-    if(dist(theObject.x, theObject.y , theAttract.x, theAttract.y) <= theAttract.pullDist*0.5){
+    if(dist(theObject.x, theObject.y , theAttract.x, theAttract.y) <= theAttract.pullDist){
       theAttract.scalar = dist(theAttract.x, theAttract.y, theObject.x,theObject.y);
       // theAttract.r = dist(theAttract.x, theAttract.y, theObject.x,theObject.y);
-      theObject.x = sin(theAttract.angle) * theAttract.scalar + theAttract.x; 
-      theObject.y = cos(theAttract.angle) * theAttract.scalar + theAttract.y;
-      theAttract.angle += theAttract.speed;
+      theObject.x = theAttract.r + sin(theAttract.angle) * theAttract.scalar + theAttract.x; 
+      theObject.y = theAttract.r + cos(theAttract.angle) * theAttract.scalar + theAttract.y;
+      theAttract.angle -= theAttract.speed;
       theAttract.scalar -= theAttract.r;
       point(theObject.x, theObject.y);
     }
@@ -93,7 +102,7 @@ class Star extends Blackhole{
     circle(this.x, this.y, this.size);
   }
   update(attractor){
-    if(dist(this.x, this.y, attractor.x, attractor.y) >= this.pullDist){
+    if(dist(this.x, this.y, attractor.x, attractor.y) > this.pullDist){
       this.x += this.dx;
       this.y += this.dy;
     }
