@@ -6,6 +6,7 @@
 // - describe what you did to take this project "above and beyond"
 let blackhole;
 let star = [];
+let colliding = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -19,18 +20,11 @@ function draw() {
     stars.display();
     stars.update(blackhole);
     attract(stars,blackhole);
-    if(stars.x - stars.size <= blackhole.size){
+    colliding = collideCirclePoly(stars.x, stars.y, blackhole.size, stars.size);
+    if(colliding){
       star.splice(stars,1);
     }
-    else if(stars.x <=blackhole.size - stars.size >= blackhole.size){
-      star.splice(stars,1);
-    }
-    else if(stars.y - stars.size <= blackhole.size){
-      star.splice(stars,1);
-    }
-    else if(stars.y <=blackhole.size - stars.size >= blackhole.size){
-      star.splice(stars,1);
-    }
+    console.log(colliding);
     // blackhole.attract(stars);
   }
 }
@@ -40,14 +34,14 @@ function mousePressed(){
 }
 function attract(theObject, theAttract){
   if(theAttract !== theObject){
+    theAttract.scalar = dist(theAttract.x, theAttract.y, theObject.x,theObject.y);
     if(dist(theObject.x, theObject.y , theAttract.x, theAttract.y) <= theAttract.pullDist){
-      theAttract.scalar = dist(theAttract.x, theAttract.y, theObject.x,theObject.y);
       // theAttract.r = dist(theAttract.x, theAttract.y, theObject.x,theObject.y);
       theObject.x = theAttract.r + sin(theAttract.angle) * theAttract.scalar + theAttract.x; 
       theObject.y = theAttract.r + cos(theAttract.angle) * theAttract.scalar + theAttract.y;
       theAttract.angle -= theAttract.speed;
-      theAttract.scalar += theAttract.r;
-      point(theObject.x, theObject.y);
+      theAttract.scalar -= theAttract.r;
+      point(theAttract.x, theAttract.y);
     }
   }
 }
@@ -61,7 +55,7 @@ class Blackhole{
     this.pullDist = this.outSize * 3;
     this.r = 0.5;
     this.angle = 0;
-    this.scalar;
+    this.scalar = 0.5;
     this.speed = 0.01;
 
   }
