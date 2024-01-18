@@ -8,6 +8,7 @@ let blackhole;
 let star = [];
 let colliding = false;
 
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   blackhole = new Blackhole(windowWidth/2, windowHeight/2);
@@ -16,11 +17,12 @@ function setup() {
 function draw() {
   background("darkBlue");
   blackhole.display();
+  mouseIsPressing();
   for(let stars of star){
     stars.display();
     stars.update(blackhole);
     attract(stars,blackhole);
-    colliding = collideCirclePoly(stars.x, stars.y, blackhole.size, stars.size);
+    colliding = collideCircleCircle(stars.x, stars.y, stars.size, blackhole.x, blackhole.y, blackhole.size);
     if(colliding){
       star.splice(stars,1);
     }
@@ -28,18 +30,21 @@ function draw() {
     // blackhole.attract(stars);
   }
 }
-function mousePressed(){
-  let theStar = new Star(mouseX, mouseY);
-  star.push(theStar);
+function mouseIsPressing(){
+  if(mouseIsPressed){
+    let theStar = new Star(mouseX, mouseY);
+    star.push(theStar);
+  }
 }
 function attract(theObject, theAttract){
   if(theAttract !== theObject){
     theAttract.scalar = dist(theAttract.x, theAttract.y, theObject.x,theObject.y);
+
     if(dist(theObject.x, theObject.y , theAttract.x, theAttract.y) <= theAttract.pullDist){
       // theAttract.r = dist(theAttract.x, theAttract.y, theObject.x,theObject.y);
       theObject.x = theAttract.r + sin(theAttract.angle) * theAttract.scalar + theAttract.x; 
       theObject.y = theAttract.r + cos(theAttract.angle) * theAttract.scalar + theAttract.y;
-      theAttract.angle -= theAttract.speed;
+      theAttract.angle += theAttract.speed;
       theAttract.scalar -= theAttract.r;
       point(theAttract.x, theAttract.y);
     }
