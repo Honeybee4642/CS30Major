@@ -21,18 +21,26 @@ function draw() {
   for(let stars of star){
     stars.display();
     stars.update(blackhole);
+    stars.becomeDead(blackhole);
     attract(stars,blackhole);
-    colliding = collideCircleCircle(stars.x, stars.y, stars.size, blackhole.x, blackhole.y, blackhole.size);
-    if(colliding){
+    if(stars.ko === true){
       star.splice(stars,1);
     }
-    console.log(colliding);
+    // colliding = collideCircleCircle(stars.x, stars.y, stars.size, blackhole.x, blackhole.y, blackhole.size);
+    // if(colliding){
+    //   stars.transparent = 255;
+    //   if(stars.transparent >=255){
+    //     star.splice(stars,1);
+    //   }
+      
+    // }
+    // console.log(colliding);
     // blackhole.attract(stars);
   }
 }
 function mouseIsPressing(){
   if(mouseIsPressed){
-    let theStar = new Star(mouseX, mouseY);
+    let theStar = new Star(mouseX, mouseY, blackhole);
     star.push(theStar);
   }
 }
@@ -57,7 +65,7 @@ class Blackhole{
     this.y = y;
     this.size = 50;
     this. outSize = this.size * 1.5;
-    this.pullDist = this.outSize * 3;
+    this.pullDist = windowHeight + windowWidth;
     this.r = 0.5;
     this.angle = 0;
     this.scalar = 0.5;
@@ -86,14 +94,16 @@ class Blackhole{
 }
 
 class Star extends Blackhole{
-  constructor(x, y){
+  constructor(x, y ,towards){
     super();
     this.x = x;
     this.y = y;
-    this.size = random(3, 40);
+    this.size = random(3, 5);
     this.color = color(random(0,255), 0, random(0,255));
-    this.dx = random(-7, 7);
-    this.dy = random(-7, 7);
+    this.dx = random(1, 7);
+    this.dy = random(1, 7);
+    this.towards = towards;
+    this.ko = false;
   }
   display(){
     noStroke();
@@ -101,21 +111,40 @@ class Star extends Blackhole{
     circle(this.x, this.y, this.size);
   }
   update(attractor){
-    if(dist(this.x, this.y, attractor.x, attractor.y) > this.pullDist){
+    if(this.x > attractor){
+      this.x -= this.dx;
+    }
+    else if(this.x < attractor){
       this.x += this.dx;
+    }
+    else if(this.y > attractor){
+      this.y -= this.dy;
+    }
+    else if(this.y < attractor){
       this.y += this.dy;
     }
-    // else{
-    //   if(this !== attractor){
-    //     if(dist(attractor.x, attractor.y , this.x, this.y) <= this.pullDist){
-    //       this.r = dist(this.x, this.y, attractor.x,attractor.y);
-    //       this.x = this.r + sin(this.angle) * this.scalar; 
-    //       this.y = this.r + cos(this.angle) * this.scalar;
-    //       this.angle -= this.speed;
-    //       this. r += this.angle;
-    //       point(attractor.x, attractor.y);
-    //     }
-    //   }
-    // }
+    
   }
+
+  becomeDead(att){
+    colliding = collideCircleCircle(this.x, this.y, this.size, att.x, att.y, att.size);
+    if(colliding){
+      this.ko = true;
+    }
+    else{
+      this.ko = false;
+    }
+  }
+  // else{
+  //   if(this !== attractor){
+  //     if(dist(attractor.x, attractor.y , this.x, this.y) <= this.pullDist){
+  //       this.r = dist(this.x, this.y, attractor.x,attractor.y);
+  //       this.x = this.r + sin(this.angle) * this.scalar; 
+  //       this.y = this.r + cos(this.angle) * this.scalar;
+  //       this.angle -= this.speed;
+  //       this. r += this.angle;
+  //       point(attractor.x, attractor.y);
+  //     }
+  //   }
+  // }  }
 }
